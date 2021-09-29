@@ -1,0 +1,15 @@
+package com.stefanini.teste;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		
+		OrdemAlfabetica ordenador = new OrdemAlfabetica(arg[]);
+		
+		Ordenador.ordenar();
+		
+		System.out.println(ordenador.exibe());
+
+	}
+
+}

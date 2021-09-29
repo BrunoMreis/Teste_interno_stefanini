@@ -1,0 +1,17 @@
+package com.stefanini.avaliacao;
+
+import com.stefanini.avaliacao.servico.OrdemAlfabetica;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		
+		OrdemAlfabetica ordenador = new OrdemAlfabetica(arg[]);
+		
+		ordenador.ordenar();
+		
+		System.out.println(ordenador.exibe());
+
+	}
+
+}
