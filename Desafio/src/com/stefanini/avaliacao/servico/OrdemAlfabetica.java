@@ -5,16 +5,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class OrdemAlfabetica {
+public class OrdemAlfabetica extends Alfabetica {
 	
-	private List<String> lista;
-	
-	public OrdemAlfabetica(String arg[]) {
 
-	this.lista = new ArrayList<String>();
-		
-		lista.addAll(Arrays.asList(arg));
-		
+
+	public OrdemAlfabetica(String[] arg) {
+		super(arg);
+		// TODO Auto-generated constructor stub
 	}
 
 	public void ordenarCrescente() {
