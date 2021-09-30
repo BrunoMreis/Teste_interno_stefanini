@@ -2,8 +2,14 @@ package com.stefanini.avaliacao.modelo;
 
 import java.time.LocalDate;
 
-public abstract class TipoDocumento {
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
+
+@MappedSuperclass
+public abstract class Documento {
+
+	@Id
 	private String numeroRegistro;
 	private String nome;
 	private LocalDate nascimento;

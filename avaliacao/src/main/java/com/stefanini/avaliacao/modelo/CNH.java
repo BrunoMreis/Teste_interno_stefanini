@@ -2,7 +2,8 @@ package com.stefanini.avaliacao.modelo;
 
 import java.time.LocalDate;
 
-public class CNH extends TipoDocumento {
+
+public class CNH extends Documento {
 
 	private LocalDate validade;
 	private LocalDate primeiraHabilitacao;
@@ -10,7 +11,9 @@ public class CNH extends TipoDocumento {
 	private String categoriaHabilitacao;
 	private String mae;
 	private String pai;
+	
 	private CPF cpf;
+
 	private RG rg;
 
 	public LocalDate getValidade() {

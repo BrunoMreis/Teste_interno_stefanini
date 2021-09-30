@@ -1,5 +1,8 @@
 package com.stefanini.avaliacao.modelo;
 
-public class CPF extends TipoDocumento {
+import javax.persistence.Entity;
+
+
+public class CPF extends Documento {
 
 }

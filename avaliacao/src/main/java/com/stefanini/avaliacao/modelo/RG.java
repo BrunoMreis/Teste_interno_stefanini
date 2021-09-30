@@ -2,7 +2,10 @@ package com.stefanini.avaliacao.modelo;
 
 import java.time.LocalDate;
 
-public class RG extends TipoDocumento {
+import javax.persistence.Entity;
+
+
+public class RG extends Documento {
 
 	private LocalDate expedicao;
 	private String mae;
