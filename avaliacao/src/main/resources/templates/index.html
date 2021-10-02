@@ -14,12 +14,30 @@
 					<h2>Upload Documento</h2>
 					<p th:text="${message}" th:if="${message ne null}"
 						class="alert alert-primary"></p>
+
+
 					<form method="post" th:action="@{/upload}"
-						enctype="multipart/form-data">
+						enctype="multipart/form-data"
+						th:object="${documentoIdentificacao}">
+
 						<div class="form-group">
-							<input type="file" name="file" class="form-control-file">
+							<select name="tipo" th:field="*{tipo}">
+								<option
+									th:each="tipo : ${T(com.stefanini.avaliacao.modelo.Tipo).values()}"
+									th:value="${tipo}" th:text="${tipo}"></option>
+							</select>
 						</div>
-						<button type="submit" class="btn btn-primary">Upload Documento</button>
+
+
+
+						<div class="form-group">
+
+							<input type="file" name="file" class="form-control-file" >
+
+						</div>
+
+						<button type="submit" class="btn btn-primary">Upload
+							Documento</button>
 					</form>
 				</div>
 			</div>

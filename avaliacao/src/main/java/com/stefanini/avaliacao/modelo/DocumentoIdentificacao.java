@@ -3,24 +3,26 @@ package com.stefanini.avaliacao.modelo;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class DocumentoIdentificacao {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	
+
 	private Tipo tipo;
 
 	private LocalDate data;
-	
+
 	private String localDoArquivo;
-	
-	
-	
-	
+
+	public DocumentoIdentificacao() {
+		data = LocalDate.now();
+	}
 
 	public Tipo getTipo() {
 		return tipo;
@@ -38,10 +40,6 @@ public class DocumentoIdentificacao {
 		this.localDoArquivo = localDoArquivo;
 	}
 
-	public DocumentoIdentificacao() {
-		data = LocalDate.now();
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -49,8 +47,6 @@ public class DocumentoIdentificacao {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public LocalDate getData() {
 		return data;
