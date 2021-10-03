@@ -5,17 +5,19 @@
 <title></title>
 </head>
 <body>
-	<div th:each="documento : ${lista}">
 
-		Tipo: <span th:text=${documento.tipo}"></span> Data Cadastro: <span
-			th:text="${#temporals.format(documento.data, 'dd/MM/yyyy')}">
-			02/10/2021</span> Local do Arquivo: <span
-			th:text="${documento.localDoArquivo"></span>
-
-
-
-
-	</div>
+	<table>
+		<tr>
+			<th>TIPO</th>
+			<th>DATA</th>
+			<th>LOCAL DO ARQUIVO</th>
+		</tr>
+		<tr th:each="documento : ${lista}">
+			<td th:text="${documento.tipo}">TIPO</td>
+			<td th:text="${documento.data}">DATA</td>
+			<td th:text="${documento.localDoArquivo}">LOCAL DO ARQUIVO</td>
+		</tr>
+	</table>
 
 
 </body>

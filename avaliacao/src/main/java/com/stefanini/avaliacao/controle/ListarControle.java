@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stefanini.avaliacao.modelo.DocumentoIdentificacao;
@@ -23,14 +24,23 @@ public class ListarControle {
 	public String listar(Model model) {
 
 		List<DocumentoIdentificacao> lista = repositorio.findAll();
+		System.out.println(lista);
 		model.addAttribute("lista", lista);
 		return "lista";
 	}
 
-	@GetMapping("/listar/filtro/data")
-	public String listarData(Model model, @RequestParam("dataInicio") LocalDate dataInicio,
-			@RequestParam("dataFim") LocalDate dataFim) {
-		List<DocumentoIdentificacao> lista = repositorio.findByData(dataInicio, dataFim);
+	@GetMapping("/listar/filtro/{data}")
+	public String listarData(Model model, @PathVariable("data") String stringData) {
+		LocalDate data = LocalDate.parse(stringData);
+		
+		List<DocumentoIdentificacao> lista = repositorio.findByData(data);
+		model.addAttribute("lista", lista);
+		return "lista";
+	}
+	
+	@GetMapping("/listar/filtro/intervalo")
+	public String listarData(Model model, @RequestParam("dataInicio") LocalDate dataInicio ,  @RequestParam("dataInicio") LocalDate dataFinal ) {
+		List<DocumentoIdentificacao> lista = repositorio.findByDataBetween(dataInicio, dataFinal );
 		model.addAttribute("lista", lista);
 		return "lista";
 	}
