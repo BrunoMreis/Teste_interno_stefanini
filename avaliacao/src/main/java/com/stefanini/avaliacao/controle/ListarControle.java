@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.stefanini.avaliacao.modelo.DocumentoIdentificacao;
 import com.stefanini.avaliacao.modelo.Tipo;
 import com.stefanini.avaliacao.repositorio.DocumentoIdentificacaoRepositorio;
+import com.stefanini.avaliacao.service.ConversorJasonService;
 
 @Controller
 public class ListarControle {
@@ -25,7 +26,10 @@ public class ListarControle {
 
 		List<DocumentoIdentificacao> lista = repositorio.findAll();
 		System.out.println(lista);
+		
+		String json = ConversorJasonService.converterJson(lista);
 		model.addAttribute("lista", lista);
+		model.addAttribute("json",json);
 		return "lista";
 	}
 
@@ -48,14 +52,14 @@ public class ListarControle {
 	
 	@GetMapping("/listar/filtro/data/inicial")
 	public String listarDataInicial(Model model, @RequestParam("dataInicio") LocalDate dataInicio) {
-		List<DocumentoIdentificacao> lista = repositorio.findByDataInicial(dataInicio);
+		List<DocumentoIdentificacao> lista = repositorio.findByDataGreaterThanEqual(dataInicio);
 		model.addAttribute("lista", lista);
 		return "lista";
 	}
 	
 	@GetMapping("/listar/filtro/data/final")
 	public String listarDataFinal(Model model, @RequestParam("dataInicio") LocalDate dataFinal) {
-		List<DocumentoIdentificacao> lista = repositorio.findByDataInicial(dataFinal);
+		List<DocumentoIdentificacao> lista = repositorio.findByDataLessThanEqual(dataFinal);
 		model.addAttribute("lista", lista);
 		return "lista";
 	}
