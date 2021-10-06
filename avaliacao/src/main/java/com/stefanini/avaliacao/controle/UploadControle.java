@@ -1,5 +1,6 @@
 package com.stefanini.avaliacao.controle;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +26,8 @@ public class UploadControle {
 
 	@Autowired
 	private DocumentoIdentificacaoRepositorio repositorio;
+	
+
 
 	private final String UPLOAD_DIR = "./diretorioRaiz/";
 
@@ -39,22 +42,29 @@ public class UploadControle {
 	public String uploadFile(@RequestParam("file") MultipartFile file,
 			@ModelAttribute(name = "documentoIdentificacao") DocumentoIdentificacao documentoIdentificacao,
 			RedirectAttributes attributes) {
+				
 
 		if (file.isEmpty()) {
 			attributes.addFlashAttribute("message", "Por favor Selecionar uma imagem do documento.");
 			return "redirect:/";
 		}
+		
+		documentoIdentificacao = repositorio.save(documentoIdentificacao);
 
-		String localDoArquivo = UPLOAD_DIR + StringUtils.cleanPath(file.getOriginalFilename());
-		documentoIdentificacao.setLocalDoArquivo(localDoArquivo );
-
-		repositorio.save(documentoIdentificacao);
-
-		try {
-
-			System.out.println(UPLOAD_DIR + documentoIdentificacao.getTipo() + "/imagem_"
-					+ documentoIdentificacao.getTipo().getDoc() + "_" + 3 + file.getOriginalFilename());
+		String[] arraySring = file.getOriginalFilename().split("\\.");
+		String fileName ="."+ arraySring[1];
 			
+		
+		String localDoArquivo = UPLOAD_DIR + documentoIdentificacao.getTipo() + "/imagem_"
+				+ documentoIdentificacao.getTipo().getDoc() + "_" + documentoIdentificacao.getId()
+				+ fileName;
+		
+		documentoIdentificacao.setLocalDoArquivo(localDoArquivo);
+		repositorio.save(documentoIdentificacao);///não está legal passar para o bando gerar id atualizar o local e salvar novamente.
+	
+		
+		
+		try {
 			
 			Path path = Paths.get(localDoArquivo);
 			Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
@@ -66,6 +76,8 @@ public class UploadControle {
 
 		return "redirect:/";
 	}
+	
+
 
 
 }
