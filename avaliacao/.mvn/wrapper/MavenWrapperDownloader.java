@@ -105,9 +105,17 @@ public class MavenWrapperDownloader {
                 }
             });
         }
-        URL website = new URL(urlString);
-        ReadableByteChannel rbc;
-        rbc = Channels.newChannel(website.openStream());
+        URI uri = URI.create(urlString);
+        URL website = uri.toURL();
+
+        // Path traversal protection: ensure destination is within base directory
+        File baseDir = new File(System.getProperty("user.dir")).getCanonicalFile();
+        File destCanonical = destination.getCanonicalFile();
+        if (!destCanonical.getPath().startsWith(baseDir.getPath() + File.separator)) {
+            throw new IOException("Invalid destination path: " + destination);
+        }
+
+        ReadableByteChannel rbc = Channels.newChannel(website.openStream());
         FileOutputStream fos = new FileOutputStream(destination);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         fos.close();

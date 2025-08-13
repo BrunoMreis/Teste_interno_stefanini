@@ -1,8 +1,0 @@
-Com o docker configurado abrar o terminal e use o comando abaixo:
-
-docker-compose -f stack.yml up
-
-
-
-fonte:
-https://hub.docker.com/_/mysql

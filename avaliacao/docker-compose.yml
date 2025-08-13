@@ -1,0 +1,43 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: arquivador-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - appnet
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql/arquivador
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: ${BANCO_DE_DADOS_SENHA}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  mysql:
+    image: mysql:8.3
+    container_name: mysql2
+    restart: always
+    environment:
+      MYSQL_DATABASE: arquivador
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: ${BANCO_DE_DADOS_SENHA}
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  mysql-data:
+
+networks:
+  appnet:

@@ -1,6 +1,5 @@
 package com.stefanini.avaliacao.controle;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,23 +50,34 @@ public class UploadControle {
 		
 		documentoIdentificacao = repositorio.save(documentoIdentificacao);
 
-		String[] arraySring = file.getOriginalFilename().split("\\.");
-		String fileName ="."+ arraySring[1];
-			
-		
-		String localDoArquivo = UPLOAD_DIR + documentoIdentificacao.getTipo() + "/imagem_"
-				+ documentoIdentificacao.getTipo().getDoc() + "_" + documentoIdentificacao.getId()
-				+ fileName;
-		
-		documentoIdentificacao.setLocalDoArquivo(localDoArquivo);
-		repositorio.save(documentoIdentificacao);///não está legal passar para o bando gerar id atualizar o local e salvar novamente.
-	
-		
-		
+		String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+		String fileExtension = "";
+		int dotIndex = originalFileName.lastIndexOf('.');
+		if (dotIndex > 0 && dotIndex < originalFileName.length() - 1) {
+			fileExtension = originalFileName.substring(dotIndex);
+		}
+
+		String safeTipo = documentoIdentificacao.getTipo().getDoc().replaceAll("[^a-zA-Z0-9_-]", "");
+		String fileName = "imagem_" + safeTipo + "_" + documentoIdentificacao.getId() + fileExtension;
+
+		Path uploadPath = Paths.get(UPLOAD_DIR, safeTipo);
 		try {
-			
-			Path path = Paths.get(localDoArquivo);
-			Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			Files.createDirectories(uploadPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Path targetPath = uploadPath.resolve(fileName).normalize();
+		if (!targetPath.startsWith(uploadPath)) {
+			attributes.addFlashAttribute("message", "Nome de arquivo inválido.");
+			return "redirect:/";
+		}
+
+		documentoIdentificacao.setLocalDoArquivo(targetPath.toString());
+		repositorio.save(documentoIdentificacao);
+
+		try {
+			Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -11,7 +11,6 @@ public class OrdemAlfabetica extends Alfabetica {
 
 	public OrdemAlfabetica(String[] arg) {
 		super(arg);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void ordenarCrescente() {

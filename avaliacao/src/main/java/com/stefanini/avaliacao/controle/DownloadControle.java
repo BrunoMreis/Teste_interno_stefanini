@@ -6,16 +6,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.stefanini.avaliacao.modelo.DocumentoIdentificacao;
 import com.stefanini.avaliacao.repositorio.DocumentoIdentificacaoRepositorio;
+
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class DownloadControle {
@@ -37,7 +41,7 @@ public class DownloadControle {
 		response.setContentType("application/octet-stream");
 		String headerKey = "Content-Diposition";
 		String headerValue = "attachment; filename=" + file.getName();
-		
+
 		response.setHeader(headerKey, headerValue);
 
 		ServletOutputStream outputStream = response.getOutputStream();
@@ -55,8 +59,6 @@ public class DownloadControle {
 		outputStream.flush();
 		outputStream.close();
 
-		
-
 	}
 
 	private String verificaBuscaERetornaPath(Optional<DocumentoIdentificacao> optional) {
@@ -65,7 +67,7 @@ public class DownloadControle {
 		if (optional.isPresent()) {
 			path = optional.get().getLocalDoArquivo();
 		} else {
-			return null;// metado para errorpagina////////////////
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Documento não encontrado");
 		}
 		return path;
 	}

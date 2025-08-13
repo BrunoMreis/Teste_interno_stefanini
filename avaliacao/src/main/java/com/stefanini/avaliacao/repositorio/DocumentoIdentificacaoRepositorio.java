@@ -3,13 +3,13 @@ package com.stefanini.avaliacao.repositorio;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.stefanini.avaliacao.modelo.DocumentoIdentificacao;
 import com.stefanini.avaliacao.modelo.Tipo;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional

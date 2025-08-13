@@ -2,8 +2,6 @@ package com.stefanini.avaliacao.modelo;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-
 
 public class RG extends Documento {
 

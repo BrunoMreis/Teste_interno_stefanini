@@ -2,8 +2,8 @@ package com.stefanini.avaliacao.modelo;
 
 import java.time.LocalDate;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 
 @MappedSuperclass

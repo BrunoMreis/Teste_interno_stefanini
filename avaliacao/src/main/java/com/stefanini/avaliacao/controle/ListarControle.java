@@ -25,7 +25,6 @@ public class ListarControle {
 	public String listar(Model model) {
 
 		List<DocumentoIdentificacao> lista = repositorio.findAll();
-		System.out.println(lista);
 		
 		String json = ConversorJasonService.converterJson(lista);
 		model.addAttribute("lista", lista);
